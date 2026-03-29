@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For Someone Special ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease;
+        }
+
+        #btn {
+            padding: 12px 28px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            background: #ff4b5c;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #btn:hover {
+            background: #ff1e3c;
+            transform: scale(1.1);
+        }
+
+        #rabbitBox {
+            display: none;
+            margin-top: 30px;
+        }
+
+        #rabbit {
+            font-size: 80px;
+        }
+
+        #bubble {
+            background: white;
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 18px;
+            min-height: 60px;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="name"></h1>
+
+<button id="btn" onclick="startLove()">Click Me 😊</button>
+
+<div id="rabbitBox">
+    <div id="rabbit">🐰</div>
+    <div id="bubble"></div>
+</div>
+
+<script>
+    document.getElementById("name").innerHTML =
+        "Out of all people… you’re my favorite notification ❤️ <br> Manasi Gadekar";
+
+    const messages = [
+       "Hey... I’ve been meaning to tell you something 😊",
+        "I know I annoy you sometimes 😅 but trust me, my intentions with you are always genuine 💖",
+        "And honestly... you make even my normal days feel a little better ❤️",
+        "I know I irritate you sometimes 🙈 but it's only because I enjoy talking to you a little too much 💖"
+    ];
+
+    let msgIndex = 0;
+    let charIndex = 0;
+
+    function startLove() {
+        document.getElementById("rabbitBox").style.display = "block";
+        document.getElementById("btn").style.display = "none";
+        typeMessage();
+    }
+
+    function typeMessage() {
+        const bubble = document.getElementById("bubble");
+
+        if (charIndex < messages[msgIndex].length) {
+            bubble.innerHTML += messages[msgIndex].charAt(charIndex);
+            charIndex++;
+            setTimeout(typeMessage, 40);
+        } else {
+            setTimeout(nextMessage, 1500);
+        }
+    }
+
+    function nextMessage() {
+        msgIndex++;
+        charIndex = 0;
+
+        if (msgIndex < messages.length) {
+            document.getElementById("bubble").innerHTML = "";
+            setTimeout(typeMessage, 300);
+        }
+    }
+
+    function createParticles() {
+        const symbols = ["❤️", "🌹"];
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.animationDuration = (3 + Math.random() * 5) + "s";
+        particle.style.fontSize = (15 + Math.random() * 20) + "px";
+
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 8000);
+    }
+
+    setInterval(createParticles, 300);
+</script>
+
+</body>
+</html>
