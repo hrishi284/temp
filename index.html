@@ -18,9 +18,8 @@
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 34px;
             margin-bottom: 20px;
-            animation: fadeIn 2s ease;
         }
 
         #btn {
@@ -31,34 +30,38 @@
             background: #ff4b5c;
             color: white;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        #btn:hover {
-            background: #ff1e3c;
-            transform: scale(1.1);
-        }
-
-        #rabbitBox {
+        #container {
             display: none;
-            margin-top: 30px;
+            margin-top: 20px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        #photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            margin-bottom: 10px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.6);
+            transition: opacity 0.5s ease;
         }
 
         #rabbit {
-            font-size: 80px;
+            font-size: 70px;
         }
 
         #bubble {
             background: white;
             color: #333;
-            padding: 15px 20px;
+            padding: 15px;
             border-radius: 20px;
             margin-top: 10px;
-            font-size: 18px;
+            font-size: 17px;
+            width: 280px;
             min-height: 60px;
-            width: 300px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .particle {
@@ -69,19 +72,13 @@
         }
 
         @keyframes floatUp {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-110vh) scale(1.5);
-                opacity: 0;
-            }
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-110vh); opacity: 0; }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
@@ -91,7 +88,8 @@
 
 <button id="btn" onclick="startLove()">Click Me 😊</button>
 
-<div id="rabbitBox">
+<div id="container">
+    <img id="photo" src="" alt="Her Photo">
     <div id="rabbit">🐰</div>
     <div id="bubble"></div>
 </div>
@@ -101,19 +99,38 @@
         "Out of all people… you’re my favorite notification ❤️ <br> Manasi Gadekar";
 
     const messages = [
-       "Hey... I’ve been meaning to tell you something 😊",
-        "I know I annoy you sometimes 😅 but trust me, my intentions with you are always genuine 💖",
-        "And honestly... you make even my normal days feel a little better ❤️",
-        "I know I irritate you sometimes 🙈 but it's only because I enjoy talking to you a little too much 💖"
+        "Hey... I’ve been meaning to tell you something 😊",
+        "I know I annoy you sometimes 😅 but my intentions are always good 💖",
+        "You actually make my day better ❤️",
+        "And yeah… I enjoy talking to you a little too much 😊"
+    ];
+
+    // 👇 ONE PHOTO PER MESSAGE (same order)
+    const photos = [
+        "photo1.jpg",
+        "photo2.jpg",
+        "photo3.jpg",
+        "photo4.jpg"
     ];
 
     let msgIndex = 0;
     let charIndex = 0;
 
     function startLove() {
-        document.getElementById("rabbitBox").style.display = "block";
+        document.getElementById("container").style.display = "block";
         document.getElementById("btn").style.display = "none";
+        updatePhoto();
         typeMessage();
+    }
+
+    function updatePhoto() {
+        const photo = document.getElementById("photo");
+        photo.style.opacity = 0;
+
+        setTimeout(() => {
+            photo.src = photos[msgIndex];
+            photo.style.opacity = 1;
+        }, 300);
     }
 
     function typeMessage() {
@@ -124,7 +141,7 @@
             charIndex++;
             setTimeout(typeMessage, 40);
         } else {
-            setTimeout(nextMessage, 1500);
+            setTimeout(nextMessage, 1800);
         }
     }
 
@@ -134,6 +151,7 @@
 
         if (msgIndex < messages.length) {
             document.getElementById("bubble").innerHTML = "";
+            updatePhoto();
             setTimeout(typeMessage, 300);
         }
     }
@@ -146,13 +164,10 @@
 
         particle.style.left = Math.random() * 100 + "vw";
         particle.style.animationDuration = (3 + Math.random() * 5) + "s";
-        particle.style.fontSize = (15 + Math.random() * 20) + "px";
 
         document.body.appendChild(particle);
 
-        setTimeout(() => {
-            particle.remove();
-        }, 8000);
+        setTimeout(() => particle.remove(), 8000);
     }
 
     setInterval(createParticles, 300);
